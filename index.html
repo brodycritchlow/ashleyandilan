@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashley & Ilan - Summer 2026</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Ashley and Ilan's wedding - Summer 2026. Join us for ceremonies in Utah and Chicago!">
+    
+    <!-- Critical CSS inline for faster first paint -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:Taviraj,serif;background-color:#f5e5dc;color:#2c2c2c;line-height:1.6}.hero{background-color:#f5e5dc;padding:60px 20px 40px;text-align:center}.hero-content{max-width:800px;margin:0 auto 40px}.main-title{font-family:Taviraj,serif;font-size:60px;font-weight:300;letter-spacing:6px;color:#2c2c2c;margin:16px auto}.subtitle{font-family:Taviraj,serif;font-size:20px;font-weight:400;letter-spacing:1px;color:#2c2c2c;margin:8px 0}.countdown-container{display:flex;justify-content:center;align-items:center;gap:15px;margin:8px 0}.countdown{font-family:Taviraj,serif;font-size:20px;font-weight:400;letter-spacing:1px;color:#2c2c2c}
+    </style>
+    
+    <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Taviraj:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://www.theknot.com">
+    <link rel="dns-prefetch" href="https://www.theknot.com">
+    
+    <!-- Load fonts with display swap for faster text rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Taviraj:wght@300;400&display=swap" rel="stylesheet">
+    
+    <!-- Defer non-critical CSS -->
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
 </head>
 <body>
     <!-- Hero Section -->
@@ -16,9 +31,9 @@
             <h1 class="main-title">ASHLEY & ILAN</h1>
             <p class="subtitle">Summer 2026</p>
             <div class="countdown-container">
-                <span class="countdown" id="utah-countdown">323 Days To Go!</span>
+                <span class="countdown" id="utah-countdown"></span>
                 <span class="countdown-dot">•</span>
-                <span class="countdown" id="chicago-countdown">344 Days To Go!</span>
+                <span class="countdown" id="chicago-countdown"></span>
             </div>
         </div>
         
@@ -32,7 +47,12 @@
         </nav>
         
         <div class="hero-image">
-            <img src="https://www.theknot.com/tk-media/images/9f312902-4b04-42be-8776-dcd928c6f58b~rt_auto-cr_0.1000.6000.4000-rs_2560.h?ordering=explicit" alt="Ashley and Ilan holding hands in nature">
+            <img src="https://www.theknot.com/tk-media/images/9f312902-4b04-42be-8776-dcd928c6f58b~rt_auto-cr_0.1000.6000.4000-rs_2560.h?ordering=explicit" 
+                 alt="Ashley and Ilan holding hands in nature"
+                 loading="lazy"
+                 decoding="async"
+                 width="2560"
+                 height="1280">
         </div>
         
         <p class="ceremony-text">We will be having a ceremony and reception in Utah, followed by a second reception in Chicago!</p>
@@ -71,6 +91,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.min.js" defer></script>
 </body>
 </html>
