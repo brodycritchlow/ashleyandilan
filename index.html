@@ -14,15 +14,13 @@
     <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://www.theknot.com">
-    <link rel="dns-prefetch" href="https://www.theknot.com">
     
     <!-- Load fonts with display swap for faster text rendering -->
     <link href="https://fonts.googleapis.com/css2?family=Taviraj:wght@300;400&display=swap" rel="stylesheet">
     
     <!-- Defer non-critical CSS -->
-    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="styles.css"></noscript>
+    <link rel="preload" href="styles.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.min.css"></noscript>
 </head>
 <body>
     <!-- Hero Section -->
@@ -39,15 +37,15 @@
         
         <nav class="main-nav">
             <ul>
-                <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="our-story.html">Our Story</a></li>
                 <li><a href="#photos">Photos</a></li>
                 <li><a href="#registry">Registry</a></li>
             </ul>
         </nav>
         
         <div class="hero-image">
-            <img src="https://www.theknot.com/tk-media/images/9f312902-4b04-42be-8776-dcd928c6f58b~rt_auto-cr_0.1000.6000.4000-rs_2560.h?ordering=explicit" 
+            <img src="hero-image.jpg"
                  alt="Ashley and Ilan holding hands in nature"
                  loading="lazy"
                  decoding="async"
