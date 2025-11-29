@@ -75,6 +75,10 @@ body {
     gap: 40px;
 }
 
+.main-nav li {
+    position: relative;
+}
+
 .main-nav a {
     font-family: 'Taviraj', serif;
     color: #2c2c2c;
@@ -94,6 +98,85 @@ body {
 .main-nav a:hover,
 .main-nav a.active {
     border-bottom: 2px solid #2c2c2c;
+}
+
+.rsvp-subtitle {
+    font-family: 'Taviraj', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #5c5c5c;
+    margin-bottom: 40px;
+}
+
+.rsvp-selector {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.rsvp-card {
+    display: block;
+    background: #fff;
+    border: 1px solid #d0c0b0;
+    border-radius: 8px;
+    padding: 32px 40px;
+    text-decoration: none;
+    text-align: center;
+    min-width: 280px;
+    transition: all 0.25s;
+}
+
+.rsvp-card:hover {
+    border-color: #2c2c2c;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.rsvp-card h3 {
+    font-family: 'Taviraj', serif;
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #2c2c2c;
+    margin-bottom: 16px;
+}
+
+.rsvp-card-date {
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #2c2c2c;
+    margin-bottom: 12px;
+}
+
+.rsvp-card-venue {
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #5c5c5c;
+    margin-bottom: 4px;
+}
+
+.rsvp-card-location {
+    font-family: 'Taviraj', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5c5c5c;
+}
+
+@media (max-width: 600px) {
+    .rsvp-selector {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rsvp-card {
+        width: 100%;
+        max-width: 320px;
+    }
 }
 
 /* Hero Image */
@@ -295,7 +378,7 @@ body {
 
 /* Photo Gallery Styles */
 .photo-gallery {
-    padding: 60px 20px;
+    padding: 0 20px 60px;
     max-width: 600px;
     margin: 0 auto;
 }
@@ -444,5 +527,416 @@ footer {
     .wedding-date {
         font-size: 16px;
         letter-spacing: 2px;
+    }
+}
+
+.rsvp-section {
+    background-color: #f5e5dc;
+    padding: 0 20px 60px;
+    text-align: center;
+}
+
+.registry-section {
+    background-color: #f5e5dc;
+    padding: 0 20px 60px;
+    text-align: center;
+}
+
+.rsvp-date {
+    font-family: 'Taviraj', serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #2c2c2c;
+    margin-bottom: 8px;
+}
+
+.rsvp-venue {
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #5c5c5c;
+    margin-bottom: 40px;
+}
+
+.rsvp-step {
+    display: none;
+}
+
+.rsvp-step.active {
+    display: block;
+}
+
+.rsvp-form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #2c2c2c;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-spinner {
+    display: none;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d0c0b0;
+    border-top-color: #2c2c2c;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.search-spinner.visible {
+    display: block;
+}
+
+@keyframes spin {
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+.group-spinner {
+    display: none;
+    width: 32px;
+    height: 32px;
+    margin: 20px auto;
+    border: 3px solid #d0c0b0;
+    border-top-color: #2c2c2c;
+    border-radius: 50%;
+    animation: spin-center 0.8s linear infinite;
+}
+
+.group-spinner.visible {
+    display: block;
+}
+
+@keyframes spin-center {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    border: 1px solid #d0c0b0;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #2c2c2c;
+    transition: border-color 0.25s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #2c2c2c;
+}
+
+.form-input::placeholder {
+    color: #999;
+}
+
+.search-hint {
+    font-family: 'Taviraj', serif;
+    font-size: 14px;
+    color: #5c5c5c;
+    text-align: center;
+    margin-top: 12px;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #d0c0b0;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+}
+
+.search-results.visible {
+    display: block;
+}
+
+.search-result-item {
+    padding: 14px 16px;
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    color: #2c2c2c;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-result-item:hover {
+    background-color: #f5e5dc;
+}
+
+.search-result-item.no-results,
+.search-result-item.error {
+    color: #5c5c5c;
+    cursor: default;
+}
+
+.search-result-item.error {
+    color: #c44;
+}
+
+.confirm-message {
+    font-family: 'Taviraj', serif;
+    font-size: 18px;
+    color: #2c2c2c;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.group-members {
+    margin-bottom: 30px;
+}
+
+.group-member {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #d0c0b0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.group-member.already-responded {
+    opacity: 0.6;
+}
+
+.member-name {
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    color: #2c2c2c;
+}
+
+.responded-badge {
+    font-family: 'Taviraj', serif;
+    font-size: 12px;
+    color: #5c5c5c;
+    background: #e8ddd5;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.plus-one-badge {
+    font-family: 'Taviraj', serif;
+    font-size: 12px;
+    color: #2c2c2c;
+    background: #d0c0b0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+
+.btn {
+    display: inline-block;
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #2c2c2c;
+    color: #fff;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.btn-primary:hover {
+    background-color: #444;
+}
+
+.btn-primary:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #2c2c2c;
+    border: 1px solid #2c2c2c;
+    width: 100%;
+}
+
+.btn-secondary:hover {
+    background-color: #2c2c2c;
+    color: #fff;
+}
+
+.guest-rsvp-form {
+    background: #fff;
+    border: 1px solid #d0c0b0;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.guest-form-name {
+    font-family: 'Taviraj', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #2c2c2c;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group .form-label {
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-label,
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    color: #2c2c2c;
+    cursor: pointer;
+}
+
+.radio-label input,
+.checkbox-label input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-select {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    border: 1px solid #d0c0b0;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #2c2c2c;
+    cursor: pointer;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #2c2c2c;
+}
+
+.attending-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e8ddd5;
+}
+
+.plus-one-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e8ddd5;
+}
+
+.plus-one-toggle {
+    font-weight: 400;
+}
+
+.plus-one-details {
+    margin-top: 20px;
+}
+
+.dietary-notes,
+.plus-one-dietary-notes {
+    margin-top: 10px;
+}
+
+.confirmation-message,
+.error-message {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.confirmation-message h3,
+.error-message h3 {
+    font-family: 'Taviraj', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: #2c2c2c;
+    margin-bottom: 16px;
+}
+
+.confirmation-message p,
+.error-message p {
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    color: #5c5c5c;
+    margin-bottom: 8px;
+}
+
+.all-responded {
+    font-family: 'Taviraj', serif;
+    font-size: 16px;
+    color: #5c5c5c;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+@media (max-width: 480px) {
+    .rsvp-form-container {
+        padding: 0 10px;
+    }
+
+    .guest-rsvp-form {
+        padding: 16px;
+    }
+
+    .btn {
+        padding: 12px 24px;
     }
 }

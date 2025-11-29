@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP - Illinois Wedding | Ashley & Ilan</title>
+    <meta name="description" content="RSVP for Ashley and Ilan's Illinois wedding - July 11, 2026 at Allegra Banquets">
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:Taviraj,serif;background-color:#f5e5dc;color:#2c2c2c;line-height:1.6}.hero{background-color:#f5e5dc;padding:60px 20px 40px;text-align:center}.hero-content{max-width:800px;margin:0 auto 40px}.main-title{font-family:Taviraj,serif;font-size:60px;font-weight:300;letter-spacing:6px;color:#2c2c2c;margin:16px auto}.subtitle{font-family:Taviraj,serif;font-size:20px;font-weight:400;letter-spacing:1px;color:#2c2c2c;margin:8px 0}.countdown-container{display:flex;justify-content:center;align-items:center;gap:15px;margin:8px 0}.countdown{font-family:Taviraj,serif;font-size:20px;font-weight:400;letter-spacing:1px;color:#2c2c2c}
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Taviraj:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="preload" href="styles.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.min.css"></noscript>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="main-title">ASHLEY & ILAN</h1>
+            <p class="subtitle">Summer 2026</p>
+            <div class="countdown-container">
+                <span class="countdown" id="utah-countdown"></span>
+                <span class="countdown-dot">•</span>
+                <span class="countdown" id="chicago-countdown"></span>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="our-story.html">Our Story</a></li>
+                <li><a href="photos.html">Photos</a></li>
+                <li><a href="registry.html">Registry</a></li>
+                <li><a href="rsvp.html" class="active">RSVP</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <section class="rsvp-section">
+        <h2 class="section-title">RSVP - ILLINOIS RECEPTION</h2>
+        <p class="rsvp-date">Saturday, July 11, 2026</p>
+        <p class="rsvp-venue">Allegra Banquets, Schiller Park, IL</p>
+
+        <div id="step-search" class="rsvp-step active">
+            <div class="rsvp-form-container">
+                <label for="guest-search" class="form-label">Enter your name to find your invitation</label>
+                <div class="search-container">
+                    <input type="text" id="guest-search" class="form-input" placeholder="Start typing your name..." autocomplete="off">
+                    <div id="search-spinner" class="search-spinner"></div>
+                    <div id="search-results" class="search-results"></div>
+                </div>
+                <p class="search-hint">We'll search our guest list and show you matching names</p>
+            </div>
+        </div>
+
+        <div id="step-confirm" class="rsvp-step">
+            <div class="rsvp-form-container">
+                <p class="confirm-message">Welcome! Here is your party:</p>
+                <div id="group-spinner" class="group-spinner"></div>
+                <div id="group-members" class="group-members"></div>
+                <button id="btn-continue" class="btn btn-primary">Continue to RSVP</button>
+                <button id="btn-back-search" class="btn btn-secondary">That's not me</button>
+            </div>
+        </div>
+
+        <div id="step-rsvp" class="rsvp-step">
+            <div class="rsvp-form-container">
+                <div id="rsvp-forms"></div>
+                <button id="btn-submit" class="btn btn-primary">Submit RSVP</button>
+                <button id="btn-back-confirm" class="btn btn-secondary">Back</button>
+            </div>
+        </div>
+
+        <div id="step-complete" class="rsvp-step">
+            <div class="rsvp-form-container">
+                <div class="confirmation-message">
+                    <h3>Thank You!</h3>
+                    <p>Your RSVP has been submitted successfully.</p>
+                    <p>We can't wait to celebrate with you!</p>
+                </div>
+                <a href="index.html" class="btn btn-primary">Return Home</a>
+            </div>
+        </div>
+
+        <div id="step-error" class="rsvp-step">
+            <div class="rsvp-form-container">
+                <div class="error-message">
+                    <h3>Oops!</h3>
+                    <p id="error-text">Something went wrong. Please try again.</p>
+                </div>
+                <button id="btn-retry" class="btn btn-primary">Try Again</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h2 class="footer-logo">A&I</h2>
+            <p class="footer-subtitle">Summer 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.min.js" defer></script>
+    <script>
+    (function() {
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdbK_1Koyh7NUmPM6lshEJKjNKq5O6A4qhR2n5_ltpLz1B1thcWPn0CZPyFF9pwvQ-/exec';
+        const WEDDING = 'IL';
+
+        let selectedGuest = null;
+        let groupMembers = [];
+        let searchTimeout = null;
+
+        const searchInput = document.getElementById('guest-search');
+        const searchResults = document.getElementById('search-results');
+        const groupMembersContainer = document.getElementById('group-members');
+        const rsvpFormsContainer = document.getElementById('rsvp-forms');
+
+        function showStep(stepId) {
+            document.querySelectorAll('.rsvp-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById(stepId).classList.add('active');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        const searchSpinner = document.getElementById('search-spinner');
+        const groupSpinner = document.getElementById('group-spinner');
+
+        function showSpinner(spinner) {
+            spinner.classList.add('visible');
+        }
+
+        function hideSpinner(spinner) {
+            spinner.classList.remove('visible');
+        }
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            clearTimeout(searchTimeout);
+
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                searchResults.classList.remove('visible');
+                hideSpinner(searchSpinner);
+                return;
+            }
+
+            showSpinner(searchSpinner);
+            searchTimeout = setTimeout(() => searchGuests(query), 300);
+        });
+
+        async function searchGuests(query) {
+            try {
+                const url = `${APPS_SCRIPT_URL}?action=search&query=${encodeURIComponent(query)}&wedding=${WEDDING}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                hideSpinner(searchSpinner);
+                displaySearchResults(data.results || []);
+            } catch (error) {
+                hideSpinner(searchSpinner);
+                searchResults.innerHTML = '<div class="search-result-item error">Error searching. Please try again.</div>';
+                searchResults.classList.add('visible');
+            }
+        }
+
+        function displaySearchResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-result-item no-results">No matching guests found. Please check your spelling.</div>';
+                searchResults.classList.add('visible');
+                return;
+            }
+
+            searchResults.innerHTML = results.map(guest => `
+                <div class="search-result-item" data-guest='${JSON.stringify(guest)}'>
+                    <span class="guest-name">${escapeHtml(guest.name)}</span>
+                </div>
+            `).join('');
+
+            searchResults.classList.add('visible');
+
+            searchResults.querySelectorAll('.search-result-item[data-guest]').forEach(item => {
+                item.addEventListener('click', function() {
+                    selectGuest(JSON.parse(this.dataset.guest));
+                });
+            });
+        }
+
+        async function selectGuest(guest) {
+            selectedGuest = guest;
+            searchResults.classList.remove('visible');
+            groupMembersContainer.innerHTML = '';
+            showStep('step-confirm');
+            showSpinner(groupSpinner);
+
+            try {
+                const url = `${APPS_SCRIPT_URL}?action=getGroup&groupId=${encodeURIComponent(guest.groupId)}&wedding=${WEDDING}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                groupMembers = data.members || [];
+                hideSpinner(groupSpinner);
+                displayGroupMembers();
+            } catch (error) {
+                hideSpinner(groupSpinner);
+                showError('Error loading your party. Please try again.');
+            }
+        }
+
+        function displayGroupMembers() {
+            groupMembersContainer.innerHTML = groupMembers.map(member => `
+                <div class="group-member ${member.hasResponded ? 'already-responded' : ''}">
+                    <span class="member-name">${escapeHtml(member.name)}</span>
+                    ${member.hasResponded ? '<span class="responded-badge">Already RSVP\'d</span>' : ''}
+                    ${member.plusOne ? '<span class="plus-one-badge">+1</span>' : ''}
+                </div>
+            `).join('');
+        }
+
+        function generateRSVPForms() {
+            const membersToRSVP = groupMembers.filter(m => !m.hasResponded);
+
+            if (membersToRSVP.length === 0) {
+                rsvpFormsContainer.innerHTML = '<p class="all-responded">Everyone in your party has already RSVP\'d!</p>';
+                document.getElementById('btn-submit').style.display = 'none';
+                return;
+            }
+
+            rsvpFormsContainer.innerHTML = membersToRSVP.map((member, index) => `
+                <div class="guest-rsvp-form" data-row="${member.row}" data-plus-one="${member.plusOne}">
+                    <h3 class="guest-form-name">${escapeHtml(member.name)}</h3>
+
+                    <div class="form-group">
+                        <label class="form-label">Will you be attending?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="attending-${index}" value="yes" class="attending-radio" data-index="${index}">
+                                <span>Yes, I'll be there!</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="attending-${index}" value="no" class="attending-radio" data-index="${index}">
+                                <span>Sorry, I can't make it</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="attending-details" id="details-${index}" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Meal Preference</label>
+                            <select name="meal-${index}" class="form-select">
+                                <option value="">Select a meal...</option>
+                                <option value="Hot Honey Chicken (GF)">Hot Honey Chicken (GF)</option>
+                                <option value="Rosemary Lemon Chicken (GF)">Rosemary Lemon Chicken (GF)</option>
+                                <option value="Teriyaki Chicken">Teriyaki Chicken</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Dietary Restrictions</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="dietary-${index}" value="Gluten Free">
+                                    <span>Gluten Free</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="dietary-${index}" value="Other" class="dietary-other" data-index="${index}">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                            <input type="text" name="dietary-notes-${index}" class="form-input dietary-notes" placeholder="Please specify dietary needs..." style="display: none;">
+                        </div>
+
+                        ${member.plusOne ? `
+                        <div class="plus-one-section">
+                            <div class="form-group">
+                                <label class="checkbox-label plus-one-toggle">
+                                    <input type="checkbox" name="bringing-plus-one-${index}" class="plus-one-checkbox" data-index="${index}">
+                                    <span>I'm bringing a plus one</span>
+                                </label>
+                            </div>
+
+                            <div class="plus-one-details" id="plus-one-details-${index}" style="display: none;">
+                                <div class="form-group">
+                                    <label class="form-label">Plus One Name</label>
+                                    <input type="text" name="plus-one-name-${index}" class="form-input" placeholder="Guest name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Plus One Meal Preference</label>
+                                    <select name="plus-one-meal-${index}" class="form-select">
+                                        <option value="">Select a meal...</option>
+                                        <option value="Hot Honey Chicken (GF)">Hot Honey Chicken (GF)</option>
+                                        <option value="Rosemary Lemon Chicken (GF)">Rosemary Lemon Chicken (GF)</option>
+                                        <option value="Teriyaki Chicken">Teriyaki Chicken</option>
+                                        <option value="Vegetarian">Vegetarian</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Plus One Dietary Restrictions</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="plus-one-dietary-${index}" value="Gluten Free">
+                                            <span>Gluten Free</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="plus-one-dietary-${index}" value="Other" class="plus-one-dietary-other" data-index="${index}">
+                                            <span>Other</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="plus-one-dietary-notes-${index}" class="form-input plus-one-dietary-notes" placeholder="Please specify dietary needs..." style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            addFormEventListeners();
+        }
+
+        function addFormEventListeners() {
+            document.querySelectorAll('.attending-radio').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const index = this.dataset.index;
+                    const details = document.getElementById(`details-${index}`);
+                    details.style.display = this.value === 'yes' ? 'block' : 'none';
+                });
+            });
+
+            document.querySelectorAll('.dietary-other').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const index = this.dataset.index;
+                    const notesInput = document.querySelector(`input[name="dietary-notes-${index}"]`);
+                    notesInput.style.display = this.checked ? 'block' : 'none';
+                });
+            });
+
+            document.querySelectorAll('.plus-one-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const index = this.dataset.index;
+                    const details = document.getElementById(`plus-one-details-${index}`);
+                    details.style.display = this.checked ? 'block' : 'none';
+                });
+            });
+
+            document.querySelectorAll('.plus-one-dietary-other').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const index = this.dataset.index;
+                    const notesInput = document.querySelector(`input[name="plus-one-dietary-notes-${index}"]`);
+                    notesInput.style.display = this.checked ? 'block' : 'none';
+                });
+            });
+        }
+
+        async function submitRSVP() {
+            const forms = document.querySelectorAll('.guest-rsvp-form');
+            const responses = [];
+
+            for (let i = 0; i < forms.length; i++) {
+                const form = forms[i];
+                const row = parseInt(form.dataset.row);
+                const attendingRadio = document.querySelector(`input[name="attending-${i}"]:checked`);
+
+                if (!attendingRadio) {
+                    alert('Please indicate whether each guest will be attending.');
+                    return;
+                }
+
+                const attending = attendingRadio.value === 'yes';
+                const response = { row, attending };
+
+                if (attending) {
+                    response.meal = document.querySelector(`select[name="meal-${i}"]`).value;
+
+                    const dietaryCheckboxes = document.querySelectorAll(`input[name="dietary-${i}"]:checked`);
+                    response.dietary = Array.from(dietaryCheckboxes).map(cb => cb.value);
+                    response.dietaryNotes = document.querySelector(`input[name="dietary-notes-${i}"]`).value;
+
+                    const plusOneCheckbox = document.querySelector(`input[name="bringing-plus-one-${i}"]`);
+                    if (plusOneCheckbox && plusOneCheckbox.checked) {
+                        response.plusOneName = document.querySelector(`input[name="plus-one-name-${i}"]`).value;
+                        response.plusOneMeal = document.querySelector(`select[name="plus-one-meal-${i}"]`).value;
+
+                        const plusOneDietaryCheckboxes = document.querySelectorAll(`input[name="plus-one-dietary-${i}"]:checked`);
+                        response.plusOneDietary = Array.from(plusOneDietaryCheckboxes).map(cb => cb.value);
+                        response.plusOneDietaryNotes = document.querySelector(`input[name="plus-one-dietary-notes-${i}"]`).value;
+                    }
+                }
+
+                responses.push(response);
+            }
+
+            try {
+                const submitBtn = document.getElementById('btn-submit');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Submitting...';
+
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ wedding: WEDDING, responses: responses })
+                });
+
+                showStep('step-complete');
+            } catch (error) {
+                showError('Error submitting RSVP. Please try again.');
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('error-text').textContent = message;
+            showStep('step-error');
+        }
+
+        document.getElementById('btn-continue').addEventListener('click', function() {
+            generateRSVPForms();
+            showStep('step-rsvp');
+        });
+
+        document.getElementById('btn-back-search').addEventListener('click', function() {
+            selectedGuest = null;
+            groupMembers = [];
+            searchInput.value = '';
+            showStep('step-search');
+        });
+
+        document.getElementById('btn-back-confirm').addEventListener('click', function() {
+            showStep('step-confirm');
+        });
+
+        document.getElementById('btn-submit').addEventListener('click', submitRSVP);
+
+        document.getElementById('btn-retry').addEventListener('click', function() {
+            showStep('step-search');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.classList.remove('visible');
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
