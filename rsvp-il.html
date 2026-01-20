@@ -250,34 +250,8 @@
                         </div>
                     </div>
 
+                    ${member.plusOne ? `
                     <div class="attending-details" id="details-${index}" style="display: none;">
-                        <div class="form-group">
-                            <label class="form-label">Meal Preference</label>
-                            <select name="meal-${index}" class="form-select">
-                                <option value="">Select a meal...</option>
-                                <option value="Hot Honey Chicken (GF)">Hot Honey Chicken (GF)</option>
-                                <option value="Rosemary Lemon Chicken (GF)">Rosemary Lemon Chicken (GF)</option>
-                                <option value="Teriyaki Chicken">Teriyaki Chicken</option>
-                                <option value="Vegetarian">Vegetarian</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Dietary Restrictions</label>
-                            <div class="checkbox-group">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="dietary-${index}" value="Gluten Free">
-                                    <span>Gluten Free</span>
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" name="dietary-${index}" value="Other" class="dietary-other" data-index="${index}">
-                                    <span>Other</span>
-                                </label>
-                            </div>
-                            <input type="text" name="dietary-notes-${index}" class="form-input dietary-notes" placeholder="Please specify dietary needs..." style="display: none;">
-                        </div>
-
-                        ${member.plusOne ? `
                         <div class="plus-one-section">
                             <div class="form-group">
                                 <label class="checkbox-label plus-one-toggle">
@@ -291,36 +265,10 @@
                                     <label class="form-label">Plus One Name</label>
                                     <input type="text" name="plus-one-name-${index}" class="form-input" placeholder="Guest name">
                                 </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Plus One Meal Preference</label>
-                                    <select name="plus-one-meal-${index}" class="form-select">
-                                        <option value="">Select a meal...</option>
-                                        <option value="Hot Honey Chicken (GF)">Hot Honey Chicken (GF)</option>
-                                        <option value="Rosemary Lemon Chicken (GF)">Rosemary Lemon Chicken (GF)</option>
-                                        <option value="Teriyaki Chicken">Teriyaki Chicken</option>
-                                        <option value="Vegetarian">Vegetarian</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Plus One Dietary Restrictions</label>
-                                    <div class="checkbox-group">
-                                        <label class="checkbox-label">
-                                            <input type="checkbox" name="plus-one-dietary-${index}" value="Gluten Free">
-                                            <span>Gluten Free</span>
-                                        </label>
-                                        <label class="checkbox-label">
-                                            <input type="checkbox" name="plus-one-dietary-${index}" value="Other" class="plus-one-dietary-other" data-index="${index}">
-                                            <span>Other</span>
-                                        </label>
-                                    </div>
-                                    <input type="text" name="plus-one-dietary-notes-${index}" class="form-input plus-one-dietary-notes" placeholder="Please specify dietary needs..." style="display: none;">
-                                </div>
                             </div>
                         </div>
-                        ` : ''}
                     </div>
+                    ` : ''}
                 </div>
             `).join('');
 
@@ -332,15 +280,9 @@
                 radio.addEventListener('change', function() {
                     const index = this.dataset.index;
                     const details = document.getElementById(`details-${index}`);
-                    details.style.display = this.value === 'yes' ? 'block' : 'none';
-                });
-            });
-
-            document.querySelectorAll('.dietary-other').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const index = this.dataset.index;
-                    const notesInput = document.querySelector(`input[name="dietary-notes-${index}"]`);
-                    notesInput.style.display = this.checked ? 'block' : 'none';
+                    if (details) {
+                        details.style.display = this.value === 'yes' ? 'block' : 'none';
+                    }
                 });
             });
 
@@ -349,14 +291,6 @@
                     const index = this.dataset.index;
                     const details = document.getElementById(`plus-one-details-${index}`);
                     details.style.display = this.checked ? 'block' : 'none';
-                });
-            });
-
-            document.querySelectorAll('.plus-one-dietary-other').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const index = this.dataset.index;
-                    const notesInput = document.querySelector(`input[name="plus-one-dietary-notes-${index}"]`);
-                    notesInput.style.display = this.checked ? 'block' : 'none';
                 });
             });
         }
@@ -379,20 +313,9 @@
                 const response = { row, attending };
 
                 if (attending) {
-                    response.meal = document.querySelector(`select[name="meal-${i}"]`).value;
-
-                    const dietaryCheckboxes = document.querySelectorAll(`input[name="dietary-${i}"]:checked`);
-                    response.dietary = Array.from(dietaryCheckboxes).map(cb => cb.value);
-                    response.dietaryNotes = document.querySelector(`input[name="dietary-notes-${i}"]`).value;
-
                     const plusOneCheckbox = document.querySelector(`input[name="bringing-plus-one-${i}"]`);
                     if (plusOneCheckbox && plusOneCheckbox.checked) {
                         response.plusOneName = document.querySelector(`input[name="plus-one-name-${i}"]`).value;
-                        response.plusOneMeal = document.querySelector(`select[name="plus-one-meal-${i}"]`).value;
-
-                        const plusOneDietaryCheckboxes = document.querySelectorAll(`input[name="plus-one-dietary-${i}"]:checked`);
-                        response.plusOneDietary = Array.from(plusOneDietaryCheckboxes).map(cb => cb.value);
-                        response.plusOneDietaryNotes = document.querySelector(`input[name="plus-one-dietary-notes-${i}"]`).value;
                     }
                 }
 
